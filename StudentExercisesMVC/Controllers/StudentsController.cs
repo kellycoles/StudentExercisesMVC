@@ -218,6 +218,49 @@ namespace StudentExercisesMVC.Controllers
         }
 
         // GET: Students/Delete/5
+        public ActionResult Delete(int id, Student student)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+            SELECT s.Id,
+                s.FirstName,
+                s.LastName,
+                s.SlackHandle,
+                s.CohortId
+            FROM Student s
+            WHERE Id = @Id
+        ";
+                    cmd.Parameters.Add(new SqlParameter("@id", id));
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        student = new Student
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
+                            LastName = reader.GetString(reader.GetOrdinal("LastName")),
+                            SlackHandle = reader.GetString(reader.GetOrdinal("SlackHandle")),
+                            CohortId = reader.GetInt32(reader.GetOrdinal("CohortId"))
+                        };
+
+
+                    }
+
+                    reader.Close();
+
+                    return View(student);
+                }
+            }
+        }
+
+        // POST: Students/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Delete(int id)
         {
             try
@@ -238,23 +281,6 @@ namespace StudentExercisesMVC.Controllers
                         throw new Exception("No rows affected");
                     }
                 }
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // POST: Students/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
             }
             catch
             {
