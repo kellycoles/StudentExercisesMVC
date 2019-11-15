@@ -1,5 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using StudentExecisesMVC.Models;
 using System;
 using System.Collections.Generic;
@@ -8,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StudentExercisesMVC.Models.ViewModels
 {
-    public class StudentCreateViewModel
+    public class StudentEditViewModel
     {
         public Student Student { get; set; }
         public List<Cohort> Cohorts { get; set; } = new List<Cohort>();

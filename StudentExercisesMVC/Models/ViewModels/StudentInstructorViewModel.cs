@@ -1,4 +1,4 @@
-﻿using StudentExecisesAPI.Models;
+﻿using StudentExecisesMVC.Models;
 using System.Collections.Generic;
 
 namespace StudentExercises.Models.ViewModels
